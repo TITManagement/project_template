@@ -29,6 +29,18 @@ python scripts/setup_dev_environment.py
 2. `.gitignore` や `pyproject.toml` など、既存のものと競合しないように調整します。
 3. 必要に応じて `setup_dev_environment.py` で環境構築を行います。
 
+## 以下を手動で作成してください
+# Windowsの場合
+pip install -r requirements-windows.txt
+
+# macOSの場合
+pip install -r requirements-macos.txt
+
+# Linuxの場合
+pip install -r requirements-linux.txt
+
+# 共通パッケージのみの場合
+pip install -r requirements.txt
 ### 注意点
 - 既存リポジトリに適用する場合は、上書きや競合に注意してください。
 - テンプレートの内容はプロジェクトに合わせてカスタマイズ可能です。
