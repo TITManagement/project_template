@@ -1,0 +1,30 @@
+name: Docs Automation
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "validate only"
+        required: true
+        default: "validate"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: docs-automation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docs-automation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: README has required sections
+        run: |
+          grep -q '^## 対象者' README.md
+          grep -q '^## 依存関係' README.md
+          grep -q '^## 最短セットアップ' README.md
