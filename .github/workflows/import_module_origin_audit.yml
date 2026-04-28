@@ -32,6 +32,7 @@ jobs:
     env:
       INTERNAL_PYPI_INDEX_URL: ${{ vars.INTERNAL_PYPI_INDEX_URL }}
       INTERNAL_REQUIRED_PACKAGES: ${{ vars.INTERNAL_REQUIRED_PACKAGES }}
+      REPORT_PATH: ops/ci/artifacts/pip-install-report-full.json
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -48,6 +49,7 @@ jobs:
 
       - name: Install project and emit pip report
         run: |
+          mkdir -p ops/ci/artifacts docs/operations
           if [ -n "${INTERNAL_PYPI_INDEX_URL:-}" ]; then
             export PIP_INDEX_URL="$INTERNAL_PYPI_INDEX_URL"
             export PIP_EXTRA_INDEX_URL="https://pypi.org/simple"
@@ -56,13 +58,12 @@ jobs:
             unset PIP_EXTRA_INDEX_URL || true
           fi
 
-          python -m pip install -e . --force-reinstall --no-cache-dir --report /tmp/pip-install-report-full.json
+          python -m pip install -e . --force-reinstall --no-cache-dir --report "$REPORT_PATH"
 
       - name: Generate origin audit markdown
         run: |
-          mkdir -p docs/operations
           python .github/scripts/generate_import_module_origin_audit.py \
-            --report /tmp/pip-install-report-full.json \
+            --report "$REPORT_PATH" \
             --pyproject pyproject.toml \
             --output docs/operations/IMPORT_MODULE_ORIGIN_AUDIT.md \
             --internal-index-url "${INTERNAL_PYPI_INDEX_URL:-}" \
@@ -72,7 +73,7 @@ jobs:
         if: ${{ env.INTERNAL_REQUIRED_PACKAGES != '' }}
         run: |
           python .github/scripts/verify_internal_pypi_sources.py \
-            --report /tmp/pip-install-report-full.json \
+            --report "$REPORT_PATH" \
             --internal-index-url "${INTERNAL_PYPI_INDEX_URL:-}" \
             --require-internal ${INTERNAL_REQUIRED_PACKAGES}
 
@@ -81,7 +82,7 @@ jobs:
         with:
           name: import-module-origin-audit
           path: |
-            /tmp/pip-install-report-full.json
+            ops/ci/artifacts/pip-install-report-full.json
             docs/operations/IMPORT_MODULE_ORIGIN_AUDIT.md
 
       - name: Commit and push audit markdown (main push)
