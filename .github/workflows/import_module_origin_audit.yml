@@ -10,13 +10,13 @@ on:
   pull_request:
     paths:
       - 'pyproject.toml'
-      - 'ops/ci/**'
+      - '.github/scripts/**'
       - '.github/workflows/import_module_origin_audit.yml'
   push:
     branches: [main]
     paths:
       - 'pyproject.toml'
-      - 'ops/ci/**'
+      - '.github/scripts/**'
       - '.github/workflows/import_module_origin_audit.yml'
 
 permissions:
@@ -61,7 +61,7 @@ jobs:
       - name: Generate origin audit markdown
         run: |
           mkdir -p docs/operations
-          python ops/ci/generate_import_module_origin_audit.py \
+          python .github/scripts/generate_import_module_origin_audit.py \
             --report /tmp/pip-install-report-full.json \
             --pyproject pyproject.toml \
             --output docs/operations/IMPORT_MODULE_ORIGIN_AUDIT.md \
@@ -71,7 +71,7 @@ jobs:
       - name: Verify internal packages (optional)
         if: ${{ env.INTERNAL_REQUIRED_PACKAGES != '' }}
         run: |
-          python ops/ci/verify_internal_pypi_sources.py \
+          python .github/scripts/verify_internal_pypi_sources.py \
             --report /tmp/pip-install-report-full.json \
             --internal-index-url "${INTERNAL_PYPI_INDEX_URL:-}" \
             --require-internal ${INTERNAL_REQUIRED_PACKAGES}
