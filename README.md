@@ -33,6 +33,10 @@ python -m pip install -e .
 python main.py
 ```
 
+## README標準
+- README の編集基準は `README_STANDARD.md` を正本とする。
+- このテンプレートを複製した先でも、同等ルールの `README_STANDARD.md` を配置して運用する。
+
 ## 主な機能
 - `main.py` 入口 + `project-template` console script
 - `PR Gate` / `QA Gate` / `Docs Automation` / `OSS License` workflow 同梱
