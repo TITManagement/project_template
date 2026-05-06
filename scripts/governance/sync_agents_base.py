@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Sync AGENTS base metadata fields from a canonical remote source."""
+
 from __future__ import annotations
 
 import argparse

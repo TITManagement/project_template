@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""List and document CI-generated artifacts for this repository."""
+
 from __future__ import annotations
 
 from pathlib import Path

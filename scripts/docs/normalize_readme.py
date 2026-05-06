@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Validate README.md against the project template minimum standard."""
+
 from __future__ import annotations
 
 import argparse
