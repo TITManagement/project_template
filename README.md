@@ -40,7 +40,12 @@ python main.py
 ## 主な機能
 - `main.py` 入口 + `project-template` console script
 - `PR Gate` / `QA Gate` / `Docs Automation` / `OSS License` workflow 同梱
+- `Python Governance` workflow による module docstring 存在検証
 - README 標準章（対象者/依存関係/最短セットアップ）を初期実装
+
+## 開発ガイド
+- docstring / comment の記載ルール: `docs/dev/notes/DEVELOPER_GUIDE.md`
+- CI 最小検証: `.github/workflows/python-governance.yml`
 
 ## 使い方
 ```bash
